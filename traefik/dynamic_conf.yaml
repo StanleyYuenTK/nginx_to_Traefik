@@ -1,0 +1,20 @@
+http:
+    routers:
+        oursky-pre-test-router: # customer name
+            rule: "Host(`localhost`) && PathPrefix(`/`)"  # server_name localhost;
+            entryPoints: # listen 80: web, 443:websecure;
+                - web
+            middlewares: # custom name match with middlewares
+                - "auth-mw"
+            service: "auth-svc"  # custom name match with services
+    
+    middlewares:
+        auth-mw: # auth_request /auth;
+            forwardAuth: # replace nginx proxy pass...
+                address: "http://auth:5000/auth" # proxy_pass http://auth:5000/auth;
+
+    services:
+        auth-svc:
+            loadBalancer:
+                servers:
+                    - url: "http://auth:5000/" #"http://auth:5000/"?
