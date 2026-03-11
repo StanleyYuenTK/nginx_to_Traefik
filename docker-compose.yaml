@@ -1,0 +1,17 @@
+services:
+  auth:
+    build:
+      context: ./auth
+    volumes:
+      - ./auth/auth.py:/app/auth.py
+  traefik:
+    image: traefik:v3.6
+    container_name: traefik-oursky-pre-test
+    # command: --api.insecure=true --providers.docker
+    ports:
+      - "8080:80"
+    volumes:
+      - ./traefik/dynamic_conf.yaml:/etc/traefik/dynamic_conf.yaml:ro
+    restart: unless-stopped
+    depends_on:
+      - auth
