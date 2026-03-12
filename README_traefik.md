@@ -45,4 +45,3 @@ curl -v -H "x-pretest: wrong-token" http://localhost:8080/health
 # Missing header
 curl http://localhost:8080
 ``` 
-
