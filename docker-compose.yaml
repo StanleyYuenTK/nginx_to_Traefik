@@ -7,7 +7,9 @@ services:
   traefik:
     image: traefik:v3.6
     container_name: traefik-oursky-pre-test
-    # command: --api.insecure=true --providers.docker
+    command: 
+      - "--providers.file.filename=/etc/traefik/dynamic_conf.yaml"
+      - "--entrypoints.web.address=:80"
     ports:
       - "8080:80"
     volumes:
